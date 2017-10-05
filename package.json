@@ -1,0 +1,27 @@
+{
+  "name": "extrajs-view",
+  "version": "1.0.0",
+  "description": "Method of displaying a data type.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chharvey/extrajs-view.git"
+  },
+  "keywords": [
+    "view",
+    "display"
+  ],
+  "author": "Chris Harvey <chrisharvey2pi@gmail.com> (https://chharvey.github.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chharvey/extrajs-view/issues"
+  },
+  "homepage": "https://github.com/chharvey/extrajs-view#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jsdoc3": "^1.0.1"
+  }
+}
