@@ -65,9 +65,12 @@ class View extends Function {
    */
   constructor(fn, data) {
     if (fn === null) {
-      super(`throw new ReferenceError('This view does not have a default display.')`)
+      super("throw new ReferenceError('This view does not have a default display.')")
     } else {
-      super(`return '${fn.call(data).replace(/\\/g, '\\\\')}'`) // double-escape any escaped backslashes in the original string
+      let returned = fn.call(data)
+        .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
+        .replace(/`/g, '\\`')   // escape any backtick literals in the original string
+      super("return `" + returned + "`")
     }
     /** @private @final */ this._DATA = data
   }
