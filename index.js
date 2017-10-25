@@ -13,7 +13,7 @@
  *
  * Get the default display by calling the view as a function.
  * ```js
- * spanview() // `<span>some data</span>`
+ * spanview() // '<span>some data</span>'
  * ```
  *
  * *(Alternatively, you can pass `null` to the constructor instead of a function, so that
@@ -32,7 +32,7 @@
  *
  * Get the display by calling the named function as an “own property” of the view.
  * ```js
- * spanview.custom1('my content is great') // `<span id="my-id">my content is great</span>`
+ * spanview.custom1('my content is great') // '<span id="my-id">my content is great</span>'
  * ```
  *
  * You may optionally pass a `this_arg` argument, to override the behavior of `this`
@@ -47,7 +47,7 @@
  * If you have another data type, you should really construct a new view.)
  *
  * ```js
- * spanview.custom2('your content sucks') // `<span id="your-id">your content sucks</span>`
+ * spanview.custom2('your content sucks') // '<span id="your-id">your content sucks</span>'
  * ```
  *
  * @extends Function
