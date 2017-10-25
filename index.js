@@ -16,9 +16,14 @@
  * spanview() // '<span>some data</span>'
  * ```
  *
- * *(Alternatively, you can pass `null` to the constructor instead of a function, so that
- * calling the view, `spanview()`, will throw a ReferenceError. This feature is useful
- * for static views, which do not have default displays.)*
+ * Alternatively, you can pass `null` instead of a function to the constructor, so that
+ * calling the view will call `.toString()` by default. This feature is useful
+ * for static views, which do not have default displays, or if you already overrode
+ * {@link Object#toString} and want to use that.
+ * ```js
+ * let stringview = new View(null, data)
+ * stringview() // the result of `data.toString()`
+ * ```
  *
  * Add more displays to a view. Displays are functions that render the data. You gave the
  * default display during construction, and you can give more optional displays,
@@ -64,14 +69,10 @@ class View extends Function {
    * @param {*} data the data that this view displays
    */
   constructor(fn, data) {
-    if (fn === null) {
-      super("throw new ReferenceError('This view does not have a default display.')")
-    } else {
-      let returned = fn.call(data)
+      let returned = (fn || function () { return this.toString() }).call(data)
         .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
         .replace(/`/g, '\\`')   // escape any backtick literals in the original string
       super("return `" + returned + "`")
-    }
     /** @private @final */ this._DATA = data
   }
   /**
