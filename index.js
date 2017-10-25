@@ -69,12 +69,13 @@ class View extends Function {
    * @param {*} data the data that this view displays
    */
   constructor(fn, data) {
-      let returned = (fn || function () { return this.toString() }).call(data)
-        .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
-        .replace(/`/g, '\\`')   // escape any backtick literals in the original string
-      super("return `" + returned + "`")
+    let returned = (fn || function () { return this.toString() }).call(data)
+      .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
+      .replace(/`/g, '\\`')   // escape any backtick literals in the original string
+    super("return `" + returned + "`")
     /** @private @final */ this._DATA = data
   }
+
   /**
    * @summary Adds a new method for displaying HTML output.
    * @version STABLE
@@ -89,5 +90,6 @@ class View extends Function {
     return this
   }
 }
+
 
 module.exports = View
