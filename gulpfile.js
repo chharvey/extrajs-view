@@ -2,7 +2,7 @@ const gulp  = require('gulp')
 const jsdoc = require('gulp-jsdoc3')
 
 gulp.task('docs:api', function () {
-  return gulp.src(['./index.js'], {read: false})
+  return gulp.src(['./index.js','interface'], {read: false})
     .pipe(jsdoc(require('./config-jsdoc.json')))
 })
 
