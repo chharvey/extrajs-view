@@ -13,12 +13,17 @@
  *
  * Get the default display by calling the view as a function.
  * ```js
- * spanview() // `<span>some data</span>`
+ * spanview() // '<span>some data</span>'
  * ```
  *
- * *(Alternatively, you can pass `null` to the constructor instead of a function, so that
- * calling the view, `spanview()`, will throw a ReferenceError. This feature is useful
- * for static views, which do not have default displays.)*
+ * Alternatively, you can pass `null` instead of a function to the constructor, so that
+ * calling the view will call `.toString()` by default. This feature is useful
+ * for static views, which do not have default displays, or if you already overrode
+ * {@link Object#toString} and want to use that.
+ * ```js
+ * let stringview = new View(null, data)
+ * stringview() // the result of `data.toString()`
+ * ```
  *
  * Add more displays to a view. Displays are functions that render the data. You gave the
  * default display during construction, and you can give more optional displays,
@@ -32,7 +37,7 @@
  *
  * Get the display by calling the named function as an “own property” of the view.
  * ```js
- * spanview.custom1('my content is great') // `<span id="my-id">my content is great</span>`
+ * spanview.custom1('my content is great') // '<span id="my-id">my content is great</span>'
  * ```
  *
  * You may optionally pass a `this_arg` argument, to override the behavior of `this`
@@ -47,7 +52,7 @@
  * If you have another data type, you should really construct a new view.)
  *
  * ```js
- * spanview.custom2('your content sucks') // `<span id="your-id">your content sucks</span>`
+ * spanview.custom2('your content sucks') // '<span id="your-id">your content sucks</span>'
  * ```
  *
  * @extends Function
@@ -64,13 +69,13 @@ class View extends Function {
    * @param {*} data the data that this view displays
    */
   constructor(fn, data) {
-    if (fn === null) {
-      super(`throw new ReferenceError('This view does not have a default display.')`)
-    } else {
-      super(`return '${fn.call(data).replace(/\\/g, '\\\\')}'`) // double-escape any escaped backslashes in the original string
-    }
+    let returned = (fn || function () { return this.toString() }).call(data)
+      .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
+      .replace(/`/g, '\\`')   // escape any backtick literals in the original string
+    super("return `" + returned + "`")
     /** @private @final */ this._DATA = data
   }
+
   /**
    * @summary Adds a new method for displaying HTML output.
    * @version STABLE
@@ -85,5 +90,6 @@ class View extends Function {
     return this
   }
 }
+
 
 module.exports = View
