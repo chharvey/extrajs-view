@@ -62,10 +62,12 @@ class View extends Function {
    * @summary Construct a new View object.
    * @description Give a function serving as this view’s default display. Any `this` in the function
    * will refer to the data given.
-   * Instead, you can pass `null`, which causes calling `this()` to throw a ReferenceError.
+   * The function you give must return a string. Any backslashes and backticks in that string will
+   * be escaped upon construction of this view.
+   * Instead, you can pass `null`, which defers to `.toString()` being called on the given data.
    * @version STABLE
    * @param {?function():string} fn the default display, where `this` refers to the given data;
-   *                                or `null` if you do not want a default display
+   *                                or `null` to use `.toString()` as the default display
    * @param {*} data the data that this view displays
    */
   constructor(fn, data) {
