@@ -71,11 +71,22 @@ class View extends Function {
    * @param {*} data the data that this view displays
    */
   constructor(fn, data) {
-    let returned = (fn || function () { return this.toString() }).call(data)
-      .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
-      .replace(/`/g, '\\`')   // escape any backtick literals in the original string
-    super("return `" + returned + "`")
-    /** @private @final */ this._DATA = data
+    super("return `" + (function () {
+      let generator = fn || function () { return this.toString() }
+      let returned = generator.call(data)
+      if (typeof returned !== 'string') throw new TypeError('The passed display does not return a string.')
+      return returned
+        .replace(/\\/g, '\\\\') // double-escape any escaped backslashes in the original string
+        .replace(/`/g, '\\`')   // escape any backtick literals in the original string
+    })() + "`")
+
+    /**
+     * @summary The data used in the view.
+     * @private
+     * @final
+     * @type {*}
+     */
+    this._DATA = data
   }
 
   /**
